@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Render Page</title>
+    <script>
+        async function classify(category) {
+            const response = await fetch('/classify', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ category: category })
+            });
+
+            const data = await response.json();
+            alert(data.message);
+        }
+    </script>
+</head>
+<body>
+    <h1>This is the Render Page</h1>
+    <button onclick="classify('Category A')">Classify Category A</button>
+    <button onclick="classify('Category B')">Classify Category B</button>
+    <a href="/"><button>Back to Home</button></a>
+</body>
+</html>

@@ -9,6 +9,14 @@ from sklearn.cluster import KMeans
 app = Flask(__name__)
 
 # Load dataset
+import os
+import pandas as pd
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+file_path = os.path.join(BASE_DIR, "Mall_customers.csv")  # Ensure exact filename
+
+df = pd.read_csv(file_path)
+
 df = pd.read_csv("Mall_customers.csv")
 encoded_df = df.copy()
 encoded_df['Gender'] = encoded_df['Gender'].map({'Male': 0, 'Female': 1})

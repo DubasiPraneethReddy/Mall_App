@@ -3,11 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home - Mall Customer Analysis</title>
+    <title>Customer Analysis</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <h2>Welcome to Mall Customer Analysis</h2>
-    <a href="{{ url_for('index') }}"><button>Go to Analysis</button></a>
+    <h2>Mall Customer Analysis</h2>
+    
+    <form action="{{ url_for('predict') }}" method="post">
+        <label for="age">Age:</label>
+        <input type="number" name="age" required>
+        
+        <label for="income">Annual Income (k$):</label>
+        <input type="number" name="income" required>
+        
+        <label for="score">Spending Score (1-100):</label>
+        <input type="number" name="score" required>
+        
+        <button type="submit">Predict Cluster</button>
+    </form>
+    
+    <a href="{{ url_for('dataset_raw') }}"><button>Show Dataset Before Encoding</button></a>
+    <a href="{{ url_for('dataset_encoded') }}"><button>Show Dataset After Encoding</button></a>
+    <a href="{{ url_for('cluster_map') }}"><button>Show Cluster Map</button></a>
+    <a href="{{ url_for('elbow_method') }}"><button>Show Elbow Method</button></a>
 </body>
 </html>

@@ -5,24 +5,21 @@ import seaborn as sns
 import io
 import base64
 from sklearn.cluster import KMeans
+import os
 
 app = Flask(__name__)
 
 # Load dataset
-import os
-import pandas as pd
-
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-file_path = os.path.join(BASE_DIR, "Mall_customers.csv")  # Ensure exact filename
-
+file_path = os.path.join(BASE_DIR, "Mall_customers.csv")
 df = pd.read_csv(file_path)
 
-df = pd.read_csv("Mall_customers.csv")
+# Encode Gender
 encoded_df = df.copy()
 encoded_df['Gender'] = encoded_df['Gender'].map({'Male': 0, 'Female': 1})
 
 # Train K-Means Model
-X = encoded_df[['Age', 'Annual Income (k$)', 'Spending Score (1-100)']]
+X = encoded_df[['Age', 'Annual Income (k$)', 'Spending Score (1-100)', 'Annual_Spend', 'Visit_Frequency']]
 kmeans = KMeans(n_clusters=5, random_state=42)
 kmeans.fit(X)
 encoded_df['Cluster'] = kmeans.labels_
@@ -40,7 +37,9 @@ def predict():
     age = int(request.form.get("age"))
     income = int(request.form.get("income"))
     score = int(request.form.get("score"))
-    input_data = [[age, income, score]]
+    spend = int(request.form.get("spend"))
+    visits = int(request.form.get("visits"))
+    input_data = [[age, income, score, spend, visits]]
     cluster = kmeans.predict(input_data)[0]
     return render_template("results.html", cluster=cluster)
 
@@ -87,5 +86,4 @@ def elbow_method():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
-
 
